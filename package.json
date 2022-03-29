@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "tsc": "rm -rf build/ && tsc",
-    "ts": "rm -rf build/ && tsc -w",
+    "ts": "rm -rf build/* && cp -r config/ build/  && tsc -w",
     "dev": "nodemon ./build/src/index.js"
   },
   "keywords": [],
@@ -21,6 +21,7 @@
     "bcrypt": "^5.0.1",
     "email-validator": "^2.0.4",
     "express": "^4.17.3",
+    "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",

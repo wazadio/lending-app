@@ -45,7 +45,6 @@ const isRegistered = async (email: string): Promise<boolean> => {
     } else {
         return false
     }
-
 }
 
 export const userRegMidd = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
