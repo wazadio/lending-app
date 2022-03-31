@@ -16,11 +16,11 @@ export const showAllLoansService = async (req: Request, res: Response) => {
     
     const id: number = user?.toJSON().id
     
-    const loan = await queries.getAllLoans(id)
+    const loans = await queries.getAllLoans(id)
     
-    return res.status(201).json({
+    return res.status(200).json({
         "status": "succes",
         "message": "get all loans succes",
-        "data": loan
+        "data": loans
     })
 }

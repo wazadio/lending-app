@@ -44,11 +44,11 @@ const showAllLoansService = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     const id = user === null || user === void 0 ? void 0 : user.toJSON().id;
-    const loan = yield queries.getAllLoans(id);
-    return res.status(201).json({
+    const loans = yield queries.getAllLoans(id);
+    return res.status(200).json({
         "status": "succes",
         "message": "get all loans succes",
-        "data": loan
+        "data": loans
     });
 });
 exports.showAllLoansService = showAllLoansService;

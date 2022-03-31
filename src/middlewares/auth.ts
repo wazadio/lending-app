@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import * as redis from "redis"
 
-export const userAddLoanMidd = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const auth = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     const { email } = req.body
 
     const token: string | string[] | undefined = req.headers["auth-token"]
@@ -25,4 +25,3 @@ export const userAddLoanMidd = async (req: Request, res: Response, next: NextFun
     })
 
 }
-
