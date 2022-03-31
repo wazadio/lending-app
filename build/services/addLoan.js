@@ -32,32 +32,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userShowLoansMidd = void 0;
-const redis = __importStar(require("redis"));
-const db = require("../../models");
-const userShowLoansMidd = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email } = req.body;
-    if (!email) {
+exports.addLoanService = void 0;
+const queries = __importStar(require("../queries/queries"));
+const addLoanService = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, jumlah } = req.body;
+    const user = yield queries.findUser(email);
+    if (!user) {
         return res.status(400).json({
-            "status": "failed",
-            "message": "email tidak boleh kosong"
+            status: "failed",
+            message: "invalid credential"
         });
     }
-    const token = req.headers["auth-token"];
-    // console.log(token)
-    const red_client = redis.createClient();
-    red_client.connect();
-    red_client.on('connect', function () {
-        console.log('Connected!');
-    });
-    const aktif = yield red_client.get(email);
-    // console.log(aktif)
-    if (aktif == token) {
-        return next();
-    }
-    return res.status(401).json({
-        "status": "failed",
-        "message": "Unauthorized | Invalid token"
+    const id = user === null || user === void 0 ? void 0 : user.toJSON().id;
+    const loan = yield queries.createLoan(id, jumlah);
+    return res.status(201).json({
+        "status": "succes",
+        "message": "loan added",
+        "data": loan.toJSON()
     });
 });
-exports.userShowLoansMidd = userShowLoansMidd;
+exports.addLoanService = addLoanService;

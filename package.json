@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "tsc": "rm -rf build/ && tsc",
-    "ts": "rm -rf build/* && cp -r config/ build/  && tsc -w",
-    "dev": "nodemon ./build/src/index.js"
+    "ts": "rm -rf build && tsc -w",
+    "dev": "nodemon ./build/index.js"
   },
   "keywords": [],
   "author": "",

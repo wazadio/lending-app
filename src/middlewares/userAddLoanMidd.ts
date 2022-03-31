@@ -2,13 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import * as redis from "redis"
 
 export const userAddLoanMidd = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-    const { email, jumlah } = req.body
-    if (!(email && jumlah)) {
-        return res.status(400).json({
-            "status": "failed",
-            "message": "data kurang lengkap"
-        })
-    }
+    const { email } = req.body
 
     const token: string | string[] | undefined = req.headers["auth-token"]
     // console.log(token)

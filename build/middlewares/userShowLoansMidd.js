@@ -32,16 +32,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userAddLoanMidd = void 0;
+exports.userShowLoansMidd = void 0;
 const redis = __importStar(require("redis"));
-const userAddLoanMidd = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, jumlah } = req.body;
-    if (!(email && jumlah)) {
-        return res.status(400).json({
-            "status": "failed",
-            "message": "data kurang lengkap"
-        });
-    }
+const userShowLoansMidd = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.body;
     const token = req.headers["auth-token"];
     // console.log(token)
     const red_client = redis.createClient();
@@ -59,4 +53,4 @@ const userAddLoanMidd = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         "message": "Unauthorized | Invalid token"
     });
 });
-exports.userAddLoanMidd = userAddLoanMidd;
+exports.userShowLoansMidd = userShowLoansMidd;

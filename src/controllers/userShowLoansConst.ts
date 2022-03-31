@@ -1,28 +1,23 @@
 import { Request, Response } from 'express';
-const db = require("../../models")
+import Joi, { ValidationResult } from 'joi';
+import { showAllLoansService } from '../services/showAllLoans';
 
-const showLoans = async (req: Request, res: Response): Promise<Response> => {
-    const {email, jumlah} = req.body
+const showLoans = async (req: Request, res: Response) => {
+    const {email} = req.body
     
-    const user = await db.user.findOne({
-        where: {
-            email: email
-        }
+    const schema = Joi.object({
+        email: Joi.string().email().required()
     })
 
-    const id = user.id
+    const validationResult: ValidationResult<any> = schema.validate({
+        email: email,
+    })
 
-    const loans = await db.Loan.findAll({
-        where: {
-            user_id: id
-        }
+    if (validationResult.error) {
+        return res.status(400).json(validationResult)
     }
-    )
 
-    return res.status(201).json({
-        "status": "succes",
-        "data": loans
-    })
+    showAllLoansService(req, res)
 
 }
 

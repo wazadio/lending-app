@@ -8,24 +8,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const db = require("../../models");
-const showLoans = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const joi_1 = __importDefault(require("joi"));
+const addLoan_1 = require("../services/addLoan");
+const addLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, jumlah } = req.body;
-    const user = yield db.user.findOne({
-        where: {
-            email: email
-        }
+    const schema = joi_1.default.object({
+        email: joi_1.default.string().email().required(),
+        jumlah: joi_1.default.number().required()
     });
-    const id = user.id;
-    const loans = yield db.Loan.findAll({
-        where: {
-            user_id: id
-        }
+    const validationResult = schema.validate({
+        email: email,
+        jumlah: jumlah
     });
-    return res.status(201).json({
-        "status": "succes",
-        "data": loans
-    });
+    if (validationResult.error) {
+        return res.status(400).json(validationResult);
+    }
+    (0, addLoan_1.addLoanService)(req, res);
 });
-exports.default = { showLoans };
+exports.default = { addLoan };

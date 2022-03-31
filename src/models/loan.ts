@@ -1,19 +1,22 @@
-"use strict";
 // import { Table, Column, Model, HasMany } from 'sequelize-typescript'
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoanModel = void 0;
+
 // @Table({
 //     timestamps: true,
 //     modelName: "user"
 // })
 // class Person extends Model {
+
 //   @Column
 //   email!: string
+
 //   @Column
 //   jumlah!: number
+
 //   @Column
 //   user_id!: number
+
 // }
+
 // import { Model } from "sequelize";
 // module.exports = (sequelize: any, DataTypes: any) => {
 //     class Loan extends Model {
@@ -33,19 +36,23 @@ exports.LoanModel = void 0;
 //     });
 //     return Loan;
 // };
-const sequelize_1 = require("sequelize");
-const db_1 = require("../db");
-exports.LoanModel = db_1.sequelize.define('loans', {
-    id: {
-        type: sequelize_1.DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
-    },
-    jumlah: {
-        type: sequelize_1.DataTypes.FLOAT
-    },
-    user_id: {
-        type: sequelize_1.DataTypes.INTEGER
-    }
+
+import { DataTypes } from "sequelize";
+import { sequelize } from "../db"
+import { UserModel } from "./user";
+
+export const LoanModel = sequelize.define('loans', {
+  id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false
+  },
+  jumlah: {
+      type: DataTypes.FLOAT
+  },
+  user_id: {
+      type: DataTypes.INTEGER
+  }
 });
+

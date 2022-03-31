@@ -31,56 +31,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const redis = __importStar(require("redis"));
-const db = require("../../models");
-const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let { email, password } = req.body;
-    if (email && password) {
-        const user = yield db.user.findOne({
-            where: {
-                email: email
-            }
-        });
-        if (user) {
-            // const validation = await bcrypt.compare(password, user.password)
-            const verified = bcrypt_1.default.compareSync(password, user.password);
-            console.log(verified);
-            if (verified) {
-                const token = jsonwebtoken_1.default.sign({
-                    id: user.id,
-                    email: user.email,
-                    name: user.name,
-                    religion: user.religion
-                }, "pinjam_modal");
-                const red_client = redis.createClient();
-                red_client.connect();
-                red_client.on('connect', function () {
-                    console.log('Connected!');
-                });
-                red_client.set(user.email, token);
-                // red_client.disconnect()
-                return res.send({
-                    "status": "succes",
-                    "email": user.email,
-                    "name": user.name,
-                    "token": token
-                });
-            }
-        }
+exports.showAllLoansService = void 0;
+const queries = __importStar(require("../queries/queries"));
+const showAllLoansService = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.body;
+    const user = yield queries.findUser(email);
+    if (!user) {
         return res.status(400).json({
-            "status": "failed",
-            "message": "User not found"
+            status: "failed",
+            message: "invalid credential"
         });
     }
-    return res.status(400).json({
-        "status": "failed",
-        "message": "Data kurang lengkap"
+    const id = user === null || user === void 0 ? void 0 : user.toJSON().id;
+    const loan = yield queries.getAllLoans(id);
+    return res.status(201).json({
+        "status": "succes",
+        "message": "get all loans succes",
+        "data": loan
     });
 });
-exports.default = { login };
+exports.showAllLoansService = showAllLoansService;

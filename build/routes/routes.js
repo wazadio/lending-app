@@ -11,8 +11,8 @@ const userShowLoansConst_1 = __importDefault(require("../controllers/userShowLoa
 const userAddLoanMidd_1 = require("../middlewares/userAddLoanMidd");
 const userShowLoansMidd_1 = require("../middlewares/userShowLoansMidd");
 const router = express_1.default.Router();
-router.post('/borrower/registration', userRegCont_1.default.register);
-router.post('/login', userLogCont_1.default.login);
+router.post('/borrower/registration', userRegCont_1.default.registerCtrl);
+router.post('/login', userLogCont_1.default.loginCtrl);
 router.post("/add", userAddLoanMidd_1.userAddLoanMidd, userAddLoanCont_1.default.addLoan);
 router.post("/getLoans", userShowLoansMidd_1.userShowLoansMidd, userShowLoansConst_1.default.showLoans);
 module.exports = router;
